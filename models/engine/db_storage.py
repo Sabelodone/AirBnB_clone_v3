@@ -83,7 +83,7 @@ class DBStorage:
             # Example: result = db_session.query(obj_class).filter_by(id=obj_id).first()
             # Assuming result is the retrieved object
             #return result  # Replace this with the retrieved object or None if not found
-        if obj_class in classes.values() and obj_id and isinstance(id, str):
+        if obj_class in classes.values() and obj_id and isinstance(obj_id, str):
             d_obj = self.all(obj_class)
             for key, value in d_obj.items():
                 if key.split(".")[1] == obj_id:
