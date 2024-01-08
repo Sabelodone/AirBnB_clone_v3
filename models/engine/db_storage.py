@@ -77,18 +77,28 @@ class DBStorage:
 
     def get(self, obj_class, obj_id):
         '''Retrieve an object from the database storage by class and id.'''
-        if obj_class in classes.values() and obj_id and isinstance(obj_id, str):
+        #if obj_class in classes.values() and obj_id and isinstance(obj_id, str):
             # Perform a database query to retrieve object by class and id
             # Replace this comment with the actual database query
             # Example: result = db_session.query(obj_class).filter_by(id=obj_id).first()
             # Assuming result is the retrieved object
-            return result  # Replace this with the retrieved object or None if not found
+            #return result  # Replace this with the retrieved object or None if not found
+        if obj_class in classes.values() and obj_id and isinstance(id, str):
+            d_obj = self.all(obj_class)
+            for key, value in d_obj.items():
+                if key.split(".")[1] == obj_id:
+                    return value
         return None
 
-    def count(self, obj_class=None):
+        #def count(self, obj_class=None):
         '''Count the number of objects in the database storage matching the given class.'''
         # Perform a database query to count objects based on class
         # Replace this comment with the actual database query
         # Example: count = db_session.query(obj_class).count()
         # Assuming count is the number of objects
-        return count if obj_class in classes.values() else 0
+        #return count if obj_class in classes.values() else 0
+    def count(self, obj_clas=None):
+        """Count the number of objects in storage matching the given class"""
+        data = self.all(obj_class) if obj_class in classes.values() else {}
+        return len(data)
+
