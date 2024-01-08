@@ -25,14 +25,10 @@ class FileStorage:
     __objects = {}
 
     def all(self, cls=None):
-        """returns the dictionary __objects"""
-        if cls is not None:
-            new_dict = {}
-            for key, value in self.__objects.items():
-                if cls == value.__class__ or cls == value.__class__.__name__:
-                    new_dict[key] = value
-            return new_dict
-        return self.__objects
+        '''Retrieve all objects or objects of a specific class from the file storage.'''
+        if cls:
+            return {key: value for key, value in self.__objects.items() if isinstance(value, cls)}
+        return self.__objects or {}
 
     def new(self, obj):
         """sets in __objects the obj with key <obj class name>.id"""
@@ -68,3 +64,33 @@ class FileStorage:
     def close(self):
         """call reload() method for deserializing the JSON file to objects"""
         self.reload()
+
+    def get(self, obj_class, obj_id):
+        '''Retrieve an object from the file storage by class and id.'''
+        if obj_class in classes.values() and obj_id and isinstance(obj_id, str):
+            objects = self.get_all_objects(obj_class)
+            for key, value in objects.items():
+                if key.split(".")[1] == obj_id:
+                    return value
+        return None
+
+    def count(self, obj_class=None):
+        '''Count the number of objects in file storage matching the given class.'''
+        objects_data = self.get_all_objects(obj_class)
+        return len(objects_data) if obj_class in classes.values() else 0
+
+    def get_all_objects(self, obj_class=None):
+        '''Retrieve all objects from the file storage for a given class.'''
+        if self.__objects is None:
+            return {}  # Return an empty dictionary if __objects is None
+
+        objects_data = {}
+        if obj_class:
+            for key, value in self.__objects.items():
+                if obj_class == value.__class__:
+                    objects_data[key] = value
+        else:
+            objects_data = self.__objects
+
+        return objects_data
+

@@ -126,7 +126,18 @@ TestBaseModel class:
 * `def test_user_module_docstring(self)` - Test for the user.py module docstring
 * `def test_user_class_docstring(self)` - Test for the User class docstring
 
+#Update DBStorage and FileStorage, adding two new methods
+A method to retrieve one object:
 
+Prototype: def get(self, cls, id):
+cls: class
+id: string representing the object ID
+Returns the object based on the class and its ID, or None if not found
+A method to count the number of objects in storage:
+
+Prototype: def count(self, cls=None):
+cls: class (optional)
+Returns the number of objects in storage matching the given class. If no class is passed, returns the count of all objects in storage.
 ## Examples of use
 ```
 vagrantAirBnB_clone$./console.py
@@ -156,7 +167,8 @@ No known bugs at this time.
 ## Authors
 Alexa Orrico - [Github](https://github.com/alexaorrico) / [Twitter](https://twitter.com/alexa_orrico)  
 Jennifer Huang - [Github](https://github.com/jhuang10123) / [Twitter](https://twitter.com/earthtojhuang)
-
+Jameson Charane Pillay <jamesonpillay@gmail.com>
+Sabelo Sibaya <sabelozondo825@gmail.com>
 Second part of Airbnb: Joann Vuong
 ## License
 Public Domain. No copy write protection. 
