@@ -10,21 +10,24 @@ from models.city import City
 from models.amenity import Amenity
 from models.review import Review
 
-classes = {"users": User, "places": Place, "states": State,
-           "cities": City, "amenities": Amenity,
-           "reviews": Review}
-
+class_references = {
+    "User": User,
+    "Place": Place,
+    "State": State,
+    "City": City,
+    "Amenity": Amenity,
+    "Review": Review
+}
 
 @app_views.route('/status', methods=['GET'])
 def status():
     ''' Routes to the status page '''
     return jsonify({'status': 'OK'})
 
-
 @app_views.route('/stats', methods=['GET'])
 def count():
     ''' Retrieves the number of each object by type '''
     count_dict = {}
-    for cls_name, cls in classes.items():
-        count_dict[cls_name] = storage.count(cls)
+    for cls_name, cls_ref in class_references.items():
+        count_dict[cls_name] = storage.count(cls_ref)
     return jsonify(count_dict)
