@@ -12,7 +12,6 @@ from models.review import Review
 from models.state import State
 from models.user import User
 from os import getenv
-import sqlalchemy
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 
@@ -21,7 +20,7 @@ classes = {"Amenity": Amenity, "City": City,
 
 
 class DBStorage:
-    """interaacts with the MySQL database"""
+    """Interacts with the MySQL database"""
     __engine = None
     __session = None
 
@@ -40,49 +39,43 @@ class DBStorage:
         if HBNB_ENV == "test":
             Base.metadata.drop_all(self.__engine)
 
-    def all(self, cls=None):
-        """query on the current database session"""
+    def all(self, obj_class=None):
+        """Query on the current database session"""
         new_dict = {}
-        for clss in classes:
-            if cls is None or cls is classes[clss] or cls is clss:
-                objs = self.__session.query(classes[clss]).all()
+        for class_name, class_obj in classes.items():
+            if obj_class is None or obj_class is class_obj or obj_class is class_name:
+                objs = self.__session.query(class_obj).all()
                 for obj in objs:
-                    key = obj.__class__.__name__ + '.' + obj.id
+                    key = f"{obj.__class__.__name__}.{obj.id}"
                     new_dict[key] = obj
-        return (new_dict)
+        return new_dict
 
     def new(self, obj):
-        """add the object to the current database session"""
+        """Add the object to the current database session"""
         self.__session.add(obj)
 
     def save(self):
-        """commit all changes of the current database session"""
+        """Commit all changes of the current database session"""
         self.__session.commit()
 
     def delete(self, obj=None):
-        """delete from the current database session obj if not None"""
-        if obj is not None:
+        """Delete from the current database session obj if not None"""
+        if obj:
             self.__session.delete(obj)
 
     def reload(self):
-        """reloads data from the database"""
+        """Reloads data from the database"""
         Base.metadata.create_all(self.__engine)
         sess_factory = sessionmaker(bind=self.__engine, expire_on_commit=False)
         Session = scoped_session(sess_factory)
         self.__session = Session
 
     def close(self):
-        """call remove() method on the private session attribute"""
+        """Call remove() method on the private session attribute"""
         self.__session.remove()
 
     def get(self, obj_class, obj_id):
-        '''Retrieve an object from the database storage by class and id.'''
-        #if obj_class in classes.values() and obj_id and isinstance(obj_id, str):
-            # Perform a database query to retrieve object by class and id
-            # Replace this comment with the actual database query
-            # Example: result = db_session.query(obj_class).filter_by(id=obj_id).first()
-            # Assuming result is the retrieved object
-            #return result  # Replace this with the retrieved object or None if not found
+        """Retrieve an object from the database storage by class and id."""
         if obj_class in classes.values() and obj_id and isinstance(obj_id, str):
             d_obj = self.all(obj_class)
             for key, value in d_obj.items():
@@ -90,15 +83,7 @@ class DBStorage:
                     return value
         return None
 
-        #def count(self, obj_class=None):
-        '''Count the number of objects in the database storage matching the given class.'''
-        # Perform a database query to count objects based on class
-        # Replace this comment with the actual database query
-        # Example: count = db_session.query(obj_class).count()
-        # Assuming count is the number of objects
-        #return count if obj_class in classes.values() else 0
-    def count(self, obj_clas=None):
+    def count(self, obj_class=None):
         """Count the number of objects in storage matching the given class"""
         data = self.all(obj_class) if obj_class in classes.values() else {}
         return len(data)
-
