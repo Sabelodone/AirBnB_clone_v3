@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 '''
-Create routes `/status` and `/stats` on the object app_views.
+Create routes `/status` and `/api/v1/stats` on the object app_views.
 '''
 
 from flask import jsonify
@@ -16,7 +16,7 @@ def api_status():
     return jsonify({"status": "OK"})
 
 
-@app_views.route('/stats', methods=['GET'])
+@app_views.route('/api/v1/stats', methods=['GET'])
 def get_stats():
     '''
     Retrieves the number of each object by type.
