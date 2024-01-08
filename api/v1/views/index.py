@@ -2,10 +2,18 @@
 '''
 Create routes `/status` and `/api/v1/stats` on the object app_views.
 '''
+from flask import Blueprint
 
 from flask import jsonify
 from api.v1.views import app_views
 from models import storage
+
+index = Blueprint('index', __name__)
+
+@index.route('/index', methods=['GET'])
+def get_index():
+    # Your view logic here
+    pass
 
 @app_views.route('/status', methods=['GET'])
 def api_status():
