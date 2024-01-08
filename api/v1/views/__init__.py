@@ -1,20 +1,18 @@
 #!/usr/bin/python3
 """create blueprint"""
 from flask import Blueprint
-from flask import Blueprint
 
 app_views = Blueprint('app_views', __name__, url_prefix='/api/v1')
 
 # Import all views in the package
-from api.v1.views.index import *
-from api.v1.views.index import index
-from api.v1.views.states import state
-from api.v1.views.cities import city
-from api.v1.views.amenities import amenity
-from api.v1.views.users import user
-from api.v1.views.places import place
-from api.v1.views.places_reviews import places_reviews
-from api.v1.views.places_amenities import places_amenities
+from .views.index import *
+from .views.states import *
+from .views.cities import *
+from .views.amenities import *
+from .views.users import *
+from .views.places import *
+from .views.places_reviews import *
+from .views.places_amenities import *
 
 # Registering blueprints
 app_views.register_blueprint(index)
