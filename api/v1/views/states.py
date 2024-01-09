@@ -1,15 +1,15 @@
 #!/usr/bin/python3
 """states"""
 from flask import Blueprint
-
-state = Blueprint('state', __name__, url_prefix='/api/v1/states')
-
 from api.v1.views import app_views
 from flask import jsonify, abort, request
 from models import storage
 from models.state import State
 from datetime import datetime
 import uuid
+
+
+state = Blueprint('state', __name__, url_prefix='/api/v1/states')
 
 
 @app_views.route('/states/', methods=['GET'])
