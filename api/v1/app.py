@@ -16,7 +16,12 @@ app.register_blueprint(app_views)
 
 @app.teardown_appcontext
 def teardown_appcontext(exception):
-    """Method to close storage"""
+    """Close the storage engine upon app context teardown.
+
+    Args:
+        exception (Exception): The exception that occurred during
+            the app context teardown.
+    """
     storage.close()
 
 if __name__ == '__main__':
