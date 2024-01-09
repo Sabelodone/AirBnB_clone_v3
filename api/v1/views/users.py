@@ -1,16 +1,18 @@
 #!/usr/bin/python3
-"""users"""
+"""
+Module views/users.py is documented
+"""
 
 from flask import Blueprint
-
-user = Blueprint('user', __name__, url_prefix='/api/v1/users')
-
 from api.v1.views import app_views
 from flask import jsonify, abort, request
 from models import storage
 from models.user import User
 from datetime import datetime
 import uuid
+
+
+user = Blueprint('user', __name__, url_prefix='/api/v1/users')
 
 
 @app_views.route('/users/', methods=['GET'])
