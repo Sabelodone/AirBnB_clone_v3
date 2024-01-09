@@ -3,6 +3,8 @@
 Module views/users.py is documented
 """
 
+from importlib import import_module
+import sys
 from flask import Blueprint
 from api.v1.views import app_views
 from flask import jsonify, abort, request
@@ -13,6 +15,13 @@ import uuid
 
 
 user = Blueprint('user', __name__, url_prefix='/api/v1/users')
+m_imported = import_module(sys.argv[1])
+
+
+if m_imported.__doc__ is None:
+    print("No module documentation", end="")
+else:
+    print("OK", end="")
 
 
 @app_views.route('/users/', methods=['GET'])
