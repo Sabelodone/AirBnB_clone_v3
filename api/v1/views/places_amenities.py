@@ -2,6 +2,9 @@
 """places_amenities"""
 
 from flask import Blueprint
+
+places_amenities = Blueprint('places_amenities', __name__, url_prefix='/api/v1/places/<place_id>/amenities')
+
 from api.v1.views import app_views
 from flask import jsonify, abort, request
 from models import storage
@@ -10,11 +13,6 @@ from models.amenity import Amenity
 from datetime import datetime
 import uuid
 from os import getenv
-
-
-places_amenities.route('/places/<place_id>/amenities/<amenity_id>',
-                       methods=['DELETE'])
-
 
 if getenv('HBNB_TYPE_STORAGE') == 'db':
     @app_views.route('/places/<place_id>/amenities', methods=['GET'])

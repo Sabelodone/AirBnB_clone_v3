@@ -2,6 +2,9 @@
 """places_reviews"""
 
 from flask import Blueprint
+
+places_reviews = Blueprint('places_reviews', __name__, url_prefix='/api/v1/places/<place_id>/reviews')
+
 from api.v1.views import app_views
 from flask import jsonify, abort, request
 from models import storage
@@ -9,10 +12,6 @@ from models.place import Place
 from models.review import Review
 from datetime import datetime
 import uuid
-
-
-places_reviews.route('/places/<place_id>/reviews/<review_id>',
-                     methods=['DELETE'])
 
 
 @app_views.route('/places/<place_id>/reviews', methods=['GET'])
