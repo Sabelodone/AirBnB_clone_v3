@@ -3,22 +3,15 @@
 a new view for User objects - handles all default RESTful API actions
 '''
 
+# Import necessary modules
+from flask import Blueprint, abort, jsonify, request
 # Import necessary modulesi
-from importlib import import_module
-import sys
 from flask import abort, jsonify, request
 from models.user import User
 from api.v1.views import app_views
 from models import storage
 
-
 user = Blueprint('user', __name__, url_prefix='/api/v1/users')
-m_imported = import_module(sys.argv[1])
-
-if m_imported.__doc__ is None:
-    print("No module documentation", end="")
-else:
-    print("OK", end="")
 
 
 # Route for retrieving all User objects
