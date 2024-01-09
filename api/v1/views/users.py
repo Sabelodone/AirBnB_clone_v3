@@ -7,7 +7,6 @@ a new view for User objects - handles all default RESTful API actions
 from importlib import import_module
 import sys
 from flask import abort, jsonify, request
-# Import the User model
 from models.user import User
 from api.v1.views import app_views
 from models import storage
