@@ -1,4 +1,7 @@
 #!/usr/bin/python3
+"""
+App module to create and configure the Flask app
+"""
 
 from flask import Flask
 from models import storage
