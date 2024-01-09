@@ -3,11 +3,20 @@
 User module to create a new view for the User object that handles all default RESTFul API actions
 """
 
+from importlib import import_module
+import sys
 from flask import Blueprint, jsonify, abort, request
 from models import storage
 from models.user import User
 
 user = Blueprint('user', __name__, url_prefix='/api/v1/users')
+m_imported = import_module(sys.argv[1])
+
+
+if m_imported.__doc__ is None:
+    print("No module documentation", end="")
+else:
+    print("OK", end="")
 
 
 @user.route('/', methods=['GET'])
