@@ -10,10 +10,12 @@ from models import storage
 
 index = Blueprint('index', __name__)
 
+
 @index.route('/index', methods=['GET'])
 def get_index():
     # Your view logic here
     pass
+
 
 @app_views.route('/status', methods=['GET'])
 def api_status():
@@ -21,6 +23,7 @@ def api_status():
     Returns a JSON response for RESTful API health.
     '''
     return jsonify({"status": "OK"})
+
 
 @app_views.route('/api/v1/stats', methods=['GET'])
 def get_stats():

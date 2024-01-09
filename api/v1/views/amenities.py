@@ -2,9 +2,6 @@
 """amenities"""
 
 from flask import Blueprint
-
-amenity = Blueprint('amenity', __name__, url_prefix='/api/v1/amenities')
-
 from api.v1.views import app_views
 from flask import jsonify, abort, request
 from models import storage

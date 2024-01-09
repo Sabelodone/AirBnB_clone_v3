@@ -1,16 +1,14 @@
 #!/usr/bin/python3
 """users"""
 
-from flask import Blueprint
+"""users"""
 
-user = Blueprint('user', __name__, url_prefix='/api/v1/users')
-
-from api.v1.views import app_views
-from flask import jsonify, abort, request
+from flask import Blueprint, jsonify, abort, request
 from models import storage
 from models.user import User
-from datetime import datetime
-import uuid
+from api.v1.views import app_views
+
+user = Blueprint('user', __name__, url_prefix='/api/v1/users')
 
 
 @app_views.route('/users/', methods=['GET'])
@@ -52,9 +50,9 @@ def create_user():
     if not request.get_json():
         abort(400, 'Not a JSON')
     if 'email' not in request.get_json():
-        abort(400, 'Missing name')
+        abort(400, 'Missing email')
     if 'password' not in request.get_json():
-        abort(400, 'Missing name')
+        abort(400, 'Missing password')
     users = []
     new_user = User(email=request.json['email'],
                     password=request.json['password'])
@@ -68,30 +66,20 @@ def create_user():
 def updates_user(user_id):
     '''Updates a User object'''
     all_users = storage.all("User").values()
-    user_obj = [obj.to_dict() for obj in all_users if obj.id == user_id]
-    if user_obj == []:
+    user_obj = [obj for obj in all_users if obj.id == user_id]
+    if not user_obj:
         abort(404)
+
     if not request.get_json():
         abort(400, 'Not a JSON')
+
+    user_obj = user_obj[0]
+
     try:
-        user_obj[0]['first_name'] = request.json['first_name']
-    except:
-        pass
-    try:
-        user_obj[0]['last_name'] = request.json['last_name']
-    except:
-        pass
-    for obj in all_users:
-        if obj.id == user_id:
-            try:
-                if request.json['first_name'] is not None:
-                    obj.first_name = request.json['first_name']
-            except:
-                pass
-            try:
-                if request.json['last_name'] is not None:
-                    obj.last_name = request.json['last_name']
-            except:
-                pass
+        user_obj.first_name = request.json.get('first_name', user_obj.first_name)
+        user_obj.last_name = request.json.get('last_name', user_obj.last_name)
+    except Exception as e:
+        abort(400, str(e))
+
     storage.save()
-    return jsonify(user_obj[0]), 200
+    return jsonify(user_obj.to_dict()), 200
